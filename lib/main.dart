@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
           content: Text(
             'O índice de massa corporal (IMC) é uma medida '
             'internacional utilizada para calcular se uma pessoa '
-            'está no peso ideal.\n'
+            'está no peso ideal.\n\n'
             'Desenvolvido por Lambert Quételet no final do séc. '
             'XIX, é um método fácil e rápido para a avaliação do '
             'nível de gordura de cada pessoa, sendo, por isso, '
