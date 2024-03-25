@@ -66,7 +66,7 @@ class _HomeState extends State<Home> {
           style: GoogleFonts.acme(
               textStyle: TextStyle(
                   color: Theme.of(context).secondaryHeaderColor,
-                  fontSize: 25))),
+                  fontSize: 30))),
       centerTitle: true,
       backgroundColor: Theme.of(context).primaryColor,
       leading: IconButton(
@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
             'O que é IMC?',
             style: GoogleFonts.acme(
                 textStyle: TextStyle(
-                    color: Theme.of(context).primaryColor, fontSize: 25)),
+                    color: Theme.of(context).primaryColor, fontSize: 30)),
             textAlign: TextAlign.center,
           ),
           content: Text(
