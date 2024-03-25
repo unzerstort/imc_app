@@ -8,7 +8,7 @@ void main() {
     title: "Calculadora IMC",
     theme: ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple.shade100),
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
     ),
     home: const Home(),
   ));
@@ -60,29 +60,90 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var textStyle = GoogleFonts.quicksand(
+        textStyle: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.primary));
+
     return Scaffold(
-        appBar: AppBar(
-      title: Text('Calculadora de IMC',
-          style: GoogleFonts.acme(
-              textStyle: TextStyle(
-                  color: Theme.of(context).secondaryHeaderColor,
-                  fontSize: 30))),
-      centerTitle: true,
-      backgroundColor: Theme.of(context).primaryColor,
-      leading: IconButton(
-        onPressed: () => _dialogBuilder(context),
-        icon: Icon(
-          Icons.help_outline,
-          color: Theme.of(context).secondaryHeaderColor,
+      appBar: AppBar(
+        title: Text('Calculadora de IMC',
+            style: GoogleFonts.chicle(
+                textStyle: TextStyle(
+                    color: theme.colorScheme.onPrimary, fontSize: 40))),
+        centerTitle: true,
+        backgroundColor: theme.primaryColor,
+        leading: IconButton(
+          onPressed: () => _dialogBuilder(context),
+          icon: Icon(
+            Icons.help_outline,
+            color: theme.colorScheme.onPrimary,
+          ),
         ),
+        actions: <Widget>[
+          IconButton(
+              onPressed: _resetCampos,
+              icon: Icon(Icons.refresh, color: theme.colorScheme.onPrimary))
+        ],
       ),
-      actions: <Widget>[
-        IconButton(
-            onPressed: _resetCampos,
-            icon: Icon(Icons.refresh,
-                color: Theme.of(context).secondaryHeaderColor))
-      ],
-    ));
+      backgroundColor: theme.colorScheme.background,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(30),
+        child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Icon(Icons.scale, size: 120, color: theme.primaryColor),
+                TextFormField(
+                    maxLength: 3,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        labelText: "Peso (kg)", labelStyle: textStyle),
+                    textAlign: TextAlign.center,
+                    style: textStyle,
+                    controller: pesoController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Insira seu peso!";
+                      } else {
+                        return null;
+                      }
+                    }),
+                TextFormField(
+                    maxLength: 3,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        labelText: "Altura (cm)", labelStyle: textStyle),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: theme.primaryColor, fontSize: 25.0),
+                    controller: alturaController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Insira sua altura!";
+                      } else {
+                        return null;
+                      }
+                    }),
+                ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) _calcular();
+                    },
+                    child: Text(
+                      "Calcular",
+                      style: textStyle,
+                    )),
+                Text(
+                  _textInfo,
+                  textAlign: TextAlign.center,
+                  style: textStyle,
+                )
+              ],
+            )),
+      ),
+    );
   }
 
   Future<void> _dialogBuilder(BuildContext context) {
@@ -90,11 +151,14 @@ class _HomeState extends State<Home> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
           title: Text(
             'O que é IMC?',
-            style: GoogleFonts.acme(
+            style: GoogleFonts.chicle(
                 textStyle: TextStyle(
-                    color: Theme.of(context).primaryColor, fontSize: 30)),
+              color: Theme.of(context).primaryColor,
+              fontSize: 40,
+            )),
             textAlign: TextAlign.center,
           ),
           content: Text(
@@ -114,7 +178,12 @@ class _HomeState extends State<Home> {
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('Entendido'),
+              child: Text(
+                'Entendido',
+                style: GoogleFonts.quicksand(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
